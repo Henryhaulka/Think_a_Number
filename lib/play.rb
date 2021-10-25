@@ -1,12 +1,13 @@
 class Game
-    attr_reader :min, :max, :secret_guess, :live
+    attr_reader :min, :max, :secret_guess, :live, :name
     
-    def initialize(min = nil,max = nil)
+    def initialize(min = nil,max = nil, name)
         @min = min
         @max = max
         @secret_guess = rand(@min..@max)
         @live = ((@min..@max).size.to_f/2).ceil
         @play = true
+        @name = name
     end
     
     def hint(guess)
@@ -26,9 +27,10 @@ class Game
     def game_on
         live_update
         while @play
-            puts "Input a number between #{min} and #{max}"
+            puts
+            puts "I am thinking of a between #{min} and #{max}"
+            puts "Enter a Number"
             guess = gets.chomp.to_i
-            p secret_guess
             hint(guess)
             puts "_ _ _ _ _ _"
             puts
@@ -39,16 +41,16 @@ class Game
 
     def winner(guess)
         if secret_guess == guess and live >= 0
-            puts "You win"
+        puts "#{name} win!!!"
             @play = false
         elsif secret_guess != guess and live > 0
             #Here we are not re-assign (even if we use a writer method), we are performing an operatio
             #hence why we didn't use 'live' but @live
             @live -= 1
-            puts "You have #{live} lives remaining"
+        puts "#{name} have #{live} lives remaining"
              
         else
-            puts "You lose"
+        puts "#{name} lose"
            @play = false
        end
     end   
